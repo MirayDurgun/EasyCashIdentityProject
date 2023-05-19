@@ -1,0 +1,143 @@
+﻿# 2 Ders (Projenin Oluşturulması)
+
+* 6.0 'da Startup yok o yüzden geçişler kolay oluyor.
+* Tek tek paket yüklemek yerine Solution'da sağ tıklayıp nugette paket yüklüyoruz.
+* Microsoft.EntityFrameworkCore 6.0.16  (6.0'ın son sürümünü indirdik)
+* Microsoft.EntityFrameworkCore.Design 6.0.16  (6.0'ın son sürümünü indirdik)
+* Microsoft.EntityFrameworkCore.SQLServer 6.0.16  (6.0'ın son sürümünü indirdik)
+* Microsoft.EntityFrameworkCore.Tools 6.0.16  (6.0'ın son sürümünü indirdik)
+* Microsoft.AspNetCore.Identity 2.2.0
+* Microsoft.AspNetCore.Identity.EntityFrameworkCore 6.0.16 
+
+# 3 Ders (Referans İşlemleri ve Entitylerin Yazılması)
+
+Katmanların birbirleriyle referans işlemleri.
+EntityLayer: ...
+DataAccessLayer: EL
+BusinessLayer: DAL + EL
+PresentationLayer: EL + DAL+ BL
+//DTO'yu sonra dahil edicez.
+
+Concrete: Sınıflar için kullanılır. 
+Abstract: Interfacce için.
+
+Access Modifiers: Erişim belirleyicileri
+-Public:her klasör sınıf vs 'den ulaşılabilir.
+-Private: sadece kullanıldığı namespace içinde erişim sağlanabiliyor. 
+-Protected: bağlı bulunduğu sınıftan ve o sınıfı kalıtsal olarak alan sınıflardan erişilebiliyor.
+-Internal: sadece bulunduğu katmanda erişim sağlanabilir.
+
+# 4 Ders (Identity Kütüphanesinin Eklenmesi)
+
+Migration eklerken Up veritabanında oluşacakları gösterirken, down iptal edersek nelerin silineceğini gösterir.
+
+Asp.Net Users:
+Id'nin türü Nvarchar
+EmailConfirmed türü byte (email adresi onaylandı mı onaylanmadı mı kontrolü)
+-Register > Maile 6 haneli kod Gönder > Kullanıcı kodu girsin > EmailConfirmed true olsun
+-Login > Kullanıcı adı, şifre, email conf==true
+-Stampler başka bir sosyal medya racılığıyla giriş yaparken
+-TwoFactorEnabled (iki adımda doğrulama)
+-LockoutEnd hesabın kilitli kalmasının bitme süresi (default 5 dakika)
+-LockOutEnabled true olursa hatalı girişi sayar
+-AccessFailedCount kaç kere yanlış bilgi girildi
+
+AspNetRoles:
+Id
+Name Admin, Member .. 
+NormalizedName büyük harflerle yazıldığı hali
+ConcurrencyStamp
+
+# 5 Ders (AspNet User Tablosunun Özelleştirilmesi)
+Bu derste ilk olarak AppUser adlı sınıfı oluşturduk. Identity paketi ile gelen AppUser'ı kişiselleştirebilmek için. Ardından migration yaptık.
+
+# 6 Ders (Dto katmanı ve AppUserRegisterDto Sınıfı)
+Bu derste ilk olarak appuser tablosu ile customeraccount tablosunu ilişkilendirdik. Ardından Dto katmanına oluşturduğumuz entitylerin dosyaları ekleyip AppUserRegisterDto sınıfını oluştrduk ve içini doldurduk.
+
+# 7 Ders (AppUserRegister Fluent Validation)
+Bu ders ilk olarak business katmanına 
+FluentValidation (11.5.2)
+FluentValidation.AspNetCore (11.3.0)
+FluentValidation.DependencyInjectionExtensions (11.5.2)
+paketlerini yükledik.
+
+ValidationRules adlı klasörü oluşturduktan sonra tüm entitiyler için ValidationRule klasörlerini açtık ve AppUserRegisterValidator için Validator yazdık.
+
+RuleFor Attribute'leri 
+--------------------------
+NotEmpty: Bir özelliğin boş olmadığını kontrol eder.
+Length: Bir özelliğin uzunluğunu kontrol eder. Minimum ve maksimum uzunluklar belirtilebilir.
+MinimumLength: Bir özelliğin minimum uzunluğunu kontrol eder.
+MaximumLength: Bir özelliğin maksimum uzunluğunu kontrol eder.
+EmailAddress: Bir özelliğin geçerli bir email adresi olduğunu kontrol eder.
+EqualTo: Bir özelliğin başka bir özellikle aynı değere sahip olup olmadığını kontrol eder.
+GreaterThan: Bir özelliğin belirtilen değerden büyük olup olmadığını kontrol eder.
+GreaterThanOrEqual: Bir özelliğin belirtilen değerden büyük veya eşit olup olmadığını kontrol eder.
+LessThan: Bir özelliğin belirtilen değerden küçük olup olmadığını kontrol eder.
+LessThanOrEqual: Bir özelliğin belirtilen değerden küçük veya eşit olup olmadığını kontrol eder.
+Matches: Bir özelliğin belirtilen düzenli ifade ile eşleşip eşleşmediğini kontrol eder.
+Must: Bir özelliğin özel bir koşulu sağlamasını gerektiren özel bir doğrulama kuralı tanımlar.
+
+# 8 Ders (Interface ve Repositorylerin Yazılması)
+Bu bölümde DataAccessLayer'da Abstract ve Repositories dosyalarını ve içini doldurduk.
+
+# 9 Ders (Business Katmanı ve Proje Tema Dosyaları)
+Bu bölümde BusinessLayer'da Abstract ve Concrete dosyalarını ve içini doldurduk.
+Tema dosyalarını indirdik.
+
+# 10 Ders (Identity Register Backend)
+Bu derste register controllerı yazıp program.cs de UseAuthorization kodlarını yazdık.
+
+# 11 Ders (Identity Register Backend)
+Bu derste register controller'a
+        else
+                {
+                    foreach (var item in result.Errors)
+                    {
+                        ModelState.AddModelError("", item.Description);
+                    }
+                }
+
+kodunu yazdık ve Index tarafında form yapısı ile kayıt işlemini gerçekleştirdik. Controllerdaki kod validation summarydeki hata mesalarının gelmesini sağladı.
+
+# 12 Ders (Identity Error Describer)
+Bu derste ilk olarak UI katmanındaki Model klasörüne CustomIdentityValidator ü ekleyip hata mesajlarını override ile güncelledik ve program.cs te
+
+builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<Context>().AddErrorDescriber<CustomIdentityValidator>();
+
+güncellemesini yapıp kontrol ederek dersi bitirdik.
+
+# 13 Ders (Confirm Code Oluşturma)
+Bu derste ilk olarak ConfirmCode propertisini AppUser classına dahil ettim ardından register controller'da bu değere random değer atandırıp kontrol ederek dersi bitirdik.
+
+# 14 Ders(Mail'e Onay Kodu Gönderme)
+İlk olarak UI katmanına NETCore.MailKit (2.1.0) paketini indirip
+
+MimeMessage mimeMessage = new MimeMessage();
+MailboxAddress mailboxAddressFrom = new MailboxAddress("Easy Cash", "coretraversal@gmail.com");
+MailboxAddress mailboxAddressTo = new MailboxAddress("User", appUser.Email);
+mimeMessage.From.Add(mailboxAddressFrom);
+mimeMessage.To.Add(mailboxAddressTo);
+
+var bodyBuilder = new BodyBuilder();
+bodyBuilder.TextBody = "Kayıt işlemini gerçekleştirmek için onay kodunuz :" + code;
+mimeMessage.Body = bodyBuilder.ToMessageBody();
+
+mimeMessage.Subject = "Easy Cash Onay Kodu";
+SmtpClient client = new SmtpClient();
+client.Connect("smtp.gmail.com", 587, false);
+client.Authenticate("coretraversal@gmail.com", "???");
+client.Send(mimeMessage);
+client.Disconnect(true);
+
+registercontrollera bu kondları yazarak gönderme işlemini tamamlıyoruz.
+
+# 15 Ders (Confirm Sayfasına Mail Adresi Taşıma)
+Bu derste ilk olarak ConfirmMailController ve ardından buna bağlı indexi açtık devamında ConfirmMailViewModel ile lazım olan dataların propertilerini tanımlayıp 
+TempData["Mail"] = appUserRegisterDto.Email;
+ile maili ConfirmMailin indexine getirip dersi bitirdik.
+
+# 16 Ders (Maile Gelen Kodu Onaylama ve Mail Aktivasyonu)
+Bu derste ilk olarak post kısmına maile getiremediğimiz için ConfirmViewModelde propertyyi güncelledik. Ardından ConfirmMailControlleda gerekli düzenlemeleri yaptıktan sonra
+
+  <input type="hidden" class="form-control" value="@ViewBag.Mail" asp-for="Mail" /> ile maile aldık ve işlemi başarılı bir şekilde tamamladık.

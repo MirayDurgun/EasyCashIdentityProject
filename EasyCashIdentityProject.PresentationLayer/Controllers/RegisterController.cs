@@ -71,7 +71,7 @@ namespace EasyCashIdentityProject.PresentationLayer.Controllers
 					SmtpClient client = new SmtpClient();
 					client.Connect("smtp.gmail.com", 587, false);//bağlantı kur
 																 //587 türkiyedeki port numarası, güvenlik sağlansın diyede false dedik
-					client.Authenticate("miraydurgun67@gmail.com", "");//kullanıcı adı ve şifre
+					client.Authenticate("miraydurgun67@gmail.com", "hfdywsspatuozwvt");//kullanıcı adı ve şifre
 																	   //uygulama şifresi için mailde telefon bilgisi ve iki adımlı doğrulama açık olmalı
 																	   //sonrasında hesabı yönet
 																	   //uygulama şifreleri kısmından özel diyerek şifre oluşturup buraya kopyalıyoruz
